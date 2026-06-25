@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>七年級上學期單字複習</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #12131C;
+    --card: #1E2030;
+    --card2: #232537;
+    --card3: #2A2D45;
+    --text: #FFFFFF;
+    --text-sub: #A0A5B5;
+    --green: #2BDE73;
+    --green-dim: #1a6b3c;
+    --red: #FF4D6A;
+    --red-dim: #7a1a2b;
+    --purple: #7C5CFC;
+    --purple-hover: #9575FF;
+    --border: #353752;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Noto Sans TC', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  /* ══════════════════════════════
+     HOME SCREEN
+  ══════════════════════════════ */
+  #home-screen {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    animation: fadeUp 0.5s ease;
+  }
+
+  .home-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .home-icon {
+    font-size: 64px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 24px rgba(124,92,252,0.4));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .home-title {
+    font-size: clamp(26px, 6vw, 36px);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 30%, #9575FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .home-subtitle {
+    font-size: 14px;
+    color: var(--text-sub);
+    font-weight: 500;
+  }
+
+  /* Stats cards */
+  .home-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .home-stat-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .home-stat-num {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--purple);
+  }
+
+  .home-stat-label {
+    font-size: 13px;
+    color: var(--text-sub);
+    font-weight: 500;
+    margin-top: 6px;
+  }
+
+  /* Info card */
+  .home-info-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 22px 24px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .home-info-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .home-info-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+
+  .home-info-text {
+    font-size: 14px;
+    color: var(--text-sub);
+    line-height: 1.5;
+  }
+
+  .home-info-text strong {
+    color: var(--text);
+  }
+
+  .home-info-divider {
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Start button */
+  .start-btn {
+    background: linear-gradient(135deg, #7C5CFC, #9575FF);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    border: none;
+    border-radius: 18px;
+    padding: 20px;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 6px 28px rgba(124,92,252,0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(124,92,252,0.55);
+  }
+
+  .start-btn:active { transform: scale(0.98); }
+
+  /* ══════════════════════════════
+     QUIZ SCREEN
+  ══════════════════════════════ */
+  #quiz-screen {
+    width: 100%;
+    max-width: 560px;
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .progress-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .q-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 7px;
+    background: var(--card2);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7C5CFC, #2BDE73);
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  .score-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--card2);
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    padding: 6px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .score-badge .check-icon { color: var(--green); font-size: 17px; }
+
+  .word-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    padding: 36px 28px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+  }
+
+  .card-hint {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-sub);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: var(--card2);
+    border-radius: 99px;
+    padding: 4px 14px;
+  }
+
+  .word-display {
+    font-size: clamp(32px, 7vw, 52px);
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-top: 6px;
+    word-break: break-word;
+  }
+
+  .word-pos {
+    font-size: clamp(13px, 2.5vw, 16px);
+    font-weight: 500;
+    color: var(--text-sub);
+    background: var(--card3);
+    border-radius: 99px;
+    padding: 3px 12px;
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .option-btn {
+    background: var(--card2);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    color: var(--text);
+    font-size: clamp(13px, 3.2vw, 16px);
+    font-weight: 600;
+    padding: 20px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    line-height: 1.3;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: var(--card3);
+    border-color: var(--purple);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 4px 20px rgba(124,92,252,0.25);
+  }
+
+  .option-btn:active:not(:disabled) { transform: scale(0.97); }
+
+  .option-btn.correct {
+    background: var(--green-dim);
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 20px rgba(43,222,115,0.3);
+    animation: pop 0.25s ease;
+  }
+
+  .option-btn.wrong {
+    background: var(--red-dim);
+    border-color: var(--red);
+    color: var(--red);
+    animation: shake 0.35s ease;
+  }
+
+  .option-btn:disabled { cursor: default; }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  /* ══════════════════════════════
+     RESULT SCREEN
+  ══════════════════════════════ */
+  #result-screen {
+    display: none;
+    width: 100%;
+    max-width: 560px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .result-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+  }
+
+  .trophy-emoji {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 12px;
+    animation: trophy-bounce 0.6s cubic-bezier(.4,0,.2,1);
+  }
+
+  @keyframes trophy-bounce {
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    70% { transform: scale(1.15) rotate(3deg); }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  .result-title {
+    font-size: clamp(22px, 5vw, 28px);
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .result-subtitle {
+    color: var(--text-sub);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .stat-box {
+    border-radius: 16px;
+    padding: 18px 12px;
+    text-align: center;
+    border: 1.5px solid;
+  }
+
+  .stat-box.green-box { background: rgba(43,222,115,0.08); border-color: var(--green); }
+  .stat-box.red-box { background: rgba(255,77,106,0.08); border-color: var(--red); }
+
+  .stat-number { font-size: 48px; font-weight: 800; line-height: 1; }
+  .green-box .stat-number { color: var(--green); }
+  .red-box .stat-number { color: var(--red); }
+
+  .stat-label { font-size: 13px; font-weight: 600; margin-top: 6px; color: var(--text-sub); }
+
+  .time-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--card2);
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .time-item { display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; }
+  .time-item .time-icon { font-size: 16px; }
+  .time-item .time-value { color: var(--text); }
+  .time-item .time-label { color: var(--text-sub); font-size: 12px; font-weight: 500; }
+  .time-divider { width: 1px; height: 28px; background: var(--border); }
+
+  .review-section {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    padding: 20px 20px 0;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+
+  .review-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text-sub);
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  .review-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 8px 0 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .review-list::-webkit-scrollbar { width: 4px; }
+  .review-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+  .review-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 4px;
+    border-bottom: 1px solid rgba(53,55,82,0.5);
+  }
+
+  .review-item:last-child { border-bottom: none; }
+  .review-icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+  .review-word { font-weight: 700; font-size: 15px; flex: 1; }
+  .review-word.correct-word { color: var(--green); }
+  .review-word.wrong-word { color: var(--red); }
+  .review-def { color: var(--text-sub); font-size: 13px; text-align: right; flex-shrink: 0; max-width: 50%; }
+
+  .result-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .play-again-btn {
+    background: var(--purple);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    padding: 18px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(124,92,252,0.35);
+    letter-spacing: 0.3px;
+  }
+
+  .play-again-btn:hover {
+    background: var(--purple-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(124,92,252,0.45);
+  }
+
+  .play-again-btn:active { transform: scale(0.98); }
+
+  .back-home-btn {
+    background: transparent;
+    color: var(--text-sub);
+    font-size: 14px;
+    font-weight: 600;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+
+  .back-home-btn:hover {
+    color: var(--text);
+    border-color: var(--text-sub);
+    background: var(--card2);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in { animation: fadeUp 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- ══ HOME SCREEN ══ -->
+<div id="home-screen">
+  <div class="home-header">
+    <div class="home-icon">📚</div>
+    <h1 class="home-title">七年級上學期單字複習</h1>
+    <p class="home-subtitle">Junior High School Grade 7 · Vocabulary Quiz</p>
+  </div>
+
+  <div class="home-stats">
+    <div class="home-stat-card">
+      <div class="home-stat-num">217</div>
+      <div class="home-stat-label">📖 總單字數</div>
+    </div>
+    <div class="home-stat-card">
+      <div class="home-stat-num">20</div>
+      <div class="home-stat-label">🎯 每回練習題數</div>
+    </div>
+  </div>
+
+  <div class="home-info-card">
+    <div class="home-info-row">
+      <span class="home-info-icon">🔀</span>
+      <span class="home-info-text">每次從 <strong>217 個單字</strong>中隨機抽取 <strong>20 題</strong>，題目與選項順序皆隨機排列</span>
+    </div>
+    <div class="home-info-divider"></div>
+    <div class="home-info-row">
+      <span class="home-info-icon">✅</span>
+      <span class="home-info-text"><strong>答對才能進入下一題</strong>，答錯時選項會停用，繼續作答直到選對為止</span>
+    </div>
+    <div class="home-info-divider"></div>
+    <div class="home-info-row">
+      <span class="home-info-icon">📝</span>
+      <span class="home-info-text">完成後顯示<strong>答題結果</strong>與<strong>本回複習清單</strong>，記錄答對與答錯的單字</span>
+    </div>
+  </div>
+
+  <button class="start-btn" onclick="startGame()">🚀 開始練習</button>
+</div>
+
+<!-- ══ QUIZ SCREEN ══ -->
+<div id="quiz-screen">
+  <div class="status-bar">
+    <div class="progress-left">
+      <span class="q-label" id="q-label">題 1 / 20</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+    <div class="score-badge">
+      <span class="check-icon">✓</span>
+      <span id="score-display">0</span>
+    </div>
+  </div>
+
+  <div class="word-card fade-in" id="word-card">
+    <span class="card-hint">英文是什麼意思？</span>
+    <div class="word-display" id="word-display">---</div>
+    <span class="word-pos" id="word-pos"></span>
+  </div>
+
+  <div class="options-grid" id="options-grid">
+    <button class="option-btn" id="opt-0"></button>
+    <button class="option-btn" id="opt-1"></button>
+    <button class="option-btn" id="opt-2"></button>
+    <button class="option-btn" id="opt-3"></button>
+  </div>
+</div>
+
+<!-- ══ RESULT SCREEN ══ -->
+<div id="result-screen">
+  <div class="result-card">
+    <span class="trophy-emoji" id="trophy-emoji">🏆</span>
+    <div class="result-title" id="result-title">完美！全部答對！</div>
+    <div class="result-subtitle" id="result-subtitle">答對 20 / 20 題</div>
+    <div class="stats-row">
+      <div class="stat-box green-box">
+        <div class="stat-number" id="correct-count">20</div>
+        <div class="stat-label">✓ 答對</div>
+      </div>
+      <div class="stat-box red-box">
+        <div class="stat-number" id="wrong-count">0</div>
+        <div class="stat-label">✗ 答錯</div>
+      </div>
+    </div>
+    <div class="time-row">
+      <div class="time-item">
+        <span class="time-icon">📅</span>
+        <div>
+          <div class="time-value" id="result-date">—</div>
+          <div class="time-label">練習日期</div>
+        </div>
+      </div>
+      <div class="time-divider"></div>
+      <div class="time-item">
+        <span class="time-icon">⏱️</span>
+        <div>
+          <div class="time-value" id="result-duration">—</div>
+          <div class="time-label">總練習時間</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-section">
+    <div class="review-title">📝 本回複習</div>
+    <div class="review-list" id="review-list"></div>
+  </div>
+
+  <div class="result-btns">
+    <button class="play-again-btn" onclick="startGame()">🔄 再玩一次（新題目）</button>
+    <button class="back-home-btn" onclick="goHome()">🏠 回到首頁</button>
+  </div>
+</div>
+
+<script>
+const WORD_BANK = [
+  {id:1,word:"handsome",pos:"adj.",definition:"英俊的"},
+  {id:2,word:"new",pos:"adj.",definition:"新的"},
+  {id:3,word:"classmate",pos:"n.",definition:"同學"},
+  {id:4,word:"young",pos:"adj.",definition:"年輕的"},
+  {id:5,word:"woman",pos:"n.",definition:"女人（複數為women）"},
+  {id:6,word:"very",pos:"adv.",definition:"非常"},
+  {id:7,word:"beautiful",pos:"adj.",definition:"美麗的"},
+  {id:8,word:"too",pos:"adv.",definition:"也"},
+  {id:9,word:"Nice to meet you.",pos:"phrase",definition:"很高興認識你。"},
+  {id:10,word:"cousin",pos:"n.",definition:"堂表兄弟姐妹"},
+  {id:11,word:"really",pos:"adv.",definition:"真地"},
+  {id:12,word:"year(s) old",pos:"phrase",definition:"⋯歲"},
+  {id:13,word:"I see.",pos:"phrase",definition:"我知道了。"},
+  {id:14,word:"singer",pos:"n.",definition:"歌手"},
+  {id:15,word:"office worker",pos:"n.",definition:"上班族"},
+  {id:16,word:"housewife",pos:"n.",definition:"家庭主婦"},
+  {id:17,word:"police officer",pos:"n.",definition:"警察"},
+  {id:18,word:"writer",pos:"n.",definition:"作家"},
+  {id:19,word:"uncle",pos:"n.",definition:"叔伯；舅舅"},
+  {id:20,word:"aunt",pos:"n.",definition:"阿姨；姑姑"},
+  {id:21,word:"wife",pos:"n.",definition:"妻子"},
+  {id:22,word:"daughter",pos:"n.",definition:"女兒"},
+  {id:23,word:"husband",pos:"n.",definition:"丈夫"},
+  {id:24,word:"son",pos:"n.",definition:"兒子"},
+  {id:25,word:"dear",pos:"adj.",definition:"親愛的"},
+  {id:26,word:"family",pos:"n.",definition:"家庭；家人"},
+  {id:27,word:"elementary school",pos:"n.",definition:"國小"},
+  {id:28,word:"junior high school",pos:"n.",definition:"國中"},
+  {id:29,word:"baby",pos:"n.; adj.",definition:"嬰兒；年幼的"},
+  {id:30,word:"house",pos:"n.",definition:"房子"},
+  {id:31,word:"parents",pos:"n.",definition:"父母親"},
+  {id:32,word:"living room",pos:"n.",definition:"客廳"},
+  {id:33,word:"wall",pos:"n.",definition:"牆壁"},
+  {id:34,word:"purple",pos:"adj.; n.",definition:"紫色（防）"},
+  {id:35,word:"favorite",pos:"adj.; n.",definition:"最喜愛（的）"},
+  {id:36,word:"color",pos:"n.",definition:"顏色"},
+  {id:37,word:"kitchen",pos:"n.",definition:"廚房"},
+  {id:38,word:"dining room",pos:"n.",definition:"飯廳"},
+  {id:39,word:"but",pos:"conj.",definition:"但是"},
+  {id:40,word:"gray",pos:"adj.; n.",definition:"灰色（的）"},
+  {id:41,word:"brown",pos:"adj.; n.",definition:"棕色（的）"},
+  {id:42,word:"cookie",pos:"n.",definition:"餅乾"},
+  {id:43,word:"mice",pos:"n.",definition:"老鼠（為mouse的複數）"},
+  {id:44,word:"maybe",pos:"adv.",definition:"可能"},
+  {id:45,word:"sofa",pos:"n.",definition:"沙發"},
+  {id:46,word:"hungry",pos:"adj.",definition:"餓的"},
+  {id:47,word:"notebook",pos:"n.",definition:"筆記本"},
+  {id:48,word:"marker",pos:"n.",definition:"記號筆；彩色筆"},
+  {id:49,word:"brush",pos:"n.",definition:"毛筆；筆刷"},
+  {id:50,word:"gift",pos:"n.",definition:"禮物"},
+  {id:51,word:"pencil case",pos:"n.",definition:"鉛筆盒（= pencil box）"},
+  {id:52,word:"bathroom",pos:"n.",definition:"浴室；廁所"},
+  {id:53,word:"table",pos:"n.",definition:"桌子"},
+  {id:54,word:"bedroom",pos:"n.",definition:"臥室"},
+  {id:55,word:"near",pos:"prep.",definition:"在⋯⋯附近"},
+  {id:56,word:"between",pos:"prep.",definition:"在⋯⋯之間"},
+  {id:57,word:"behind",pos:"prep.",definition:"在⋯⋯後面"},
+  {id:58,word:"in front of",pos:"prep.",definition:"在⋯⋯前面"},
+  {id:59,word:"special",pos:"adj.",definition:"特別的"},
+  {id:60,word:"inside",pos:"prep.",definition:"在⋯⋯裡面"},
+  {id:61,word:"right",pos:"adv.",definition:"就"},
+  {id:62,word:"each other",pos:"pron.",definition:"彼此；互相"},
+  {id:63,word:"above",pos:"prep.; adv.",definition:"在⋯⋯上方；在上方"},
+  {id:64,word:"enough",pos:"adj.; adv.; pron.",definition:"足夠（的）"},
+  {id:65,word:"person",pos:"n.",definition:"人（複數為persons 或 people）"},
+  {id:66,word:"guy",pos:"n.",definition:"人；傢伙"},
+  {id:67,word:"magic",pos:"adj.; n.",definition:"神奇的；魔法"},
+  {id:68,word:"with",pos:"prep.",definition:"用；和"},
+  {id:69,word:"can",pos:"aux.",definition:"可以；會"},
+  {id:70,word:"many",pos:"adj.; pron.",definition:"許多（的）"},
+  {id:71,word:"place",pos:"n.",definition:"地方"},
+  {id:72,word:"use",pos:"v.; n.",definition:"使用"},
+  {id:73,word:"sure",pos:"adv.; adj.",definition:"當然；確定的"},
+  {id:74,word:"let's...",pos:"phrase",definition:"讓我們一起⋯⋯"},
+  {id:75,word:"careful",pos:"adj.",definition:"小心的"},
+  {id:76,word:"museum",pos:"n.",definition:"博物館"},
+  {id:77,word:"Hurry!",pos:"phrase",definition:"快點！"},
+  {id:78,word:"please",pos:"int.",definition:"請；拜託"},
+  {id:79,word:"wait",pos:"v.",definition:"等待"},
+  {id:80,word:"man",pos:"n.",definition:"男人（複數為men）"},
+  {id:81,word:"now",pos:"adv.",definition:"現在"},
+  {id:82,word:"or",pos:"conj.",definition:"或者"},
+  {id:83,word:"time",pos:"n.",definition:"次；時間"},
+  {id:84,word:"wake up",pos:"phrase",definition:"醒來；叫醒⋯⋯"},
+  {id:85,word:"class",pos:"n.",definition:"課；班級"},
+  {id:86,word:"Oh my!",pos:"phrase",definition:"天哪！"},
+  {id:87,word:"see",pos:"v.",definition:"看見"},
+  {id:88,word:"quiet",pos:"adj.",definition:"安靜的"},
+  {id:89,word:"turn off",pos:"phrase",definition:"關掉"},
+  {id:90,word:"sign",pos:"n.",definition:"標誌"},
+  {id:91,word:"talk",pos:"v.",definition:"說話"},
+  {id:92,word:"fight",pos:"v.; n.",definition:"吵架；打架"},
+  {id:93,word:"turn",pos:"n.",definition:"（依次輪到的）機會"},
+  {id:94,word:"follow",pos:"v.",definition:"遵守；跟隨"},
+  {id:95,word:"rule",pos:"n.",definition:"規則"},
+  {id:96,word:"safe",pos:"adj.",definition:"安全的"},
+  {id:97,word:"wash",pos:"v.",definition:"清洗"},
+  {id:98,word:"hand",pos:"n.",definition:"手"},
+  {id:99,word:"after class",pos:"phrase",definition:"下課後"},
+  {id:100,word:"music video",pos:"n.",definition:"音樂影片"},
+  {id:101,word:"band",pos:"n.",definition:"樂團"},
+  {id:102,word:"take a look",pos:"phrase",definition:"看一看"},
+  {id:103,word:"all",pos:"adj.",definition:"所有的"},
+  {id:104,word:"cute",pos:"adj.",definition:"可愛的"},
+  {id:105,word:"great",pos:"adj.",definition:"棒的"},
+  {id:106,word:"free",pos:"adj.",definition:"有空的"},
+  {id:107,word:"weekend",pos:"n.",definition:"週末"},
+  {id:108,word:"Saturday",pos:"n.",definition:"星期六"},
+  {id:109,word:"together",pos:"adv.",definition:"一起"},
+  {id:110,word:"ready",pos:"adj.",definition:"準備好的"},
+  {id:111,word:"p.m.",pos:"adv.",definition:"下午；晚上"},
+  {id:112,word:"o'clock",pos:"adv.",definition:"點鐘"},
+  {id:113,word:"day",pos:"n.",definition:"日；天"},
+  {id:114,word:"today",pos:"adv.; n.",definition:"今天"},
+  {id:115,word:"Friday",pos:"n.",definition:"星期五"},
+  {id:116,word:"Sunday",pos:"n.",definition:"星期日"},
+  {id:117,word:"Monday",pos:"n.",definition:"星期一"},
+  {id:118,word:"Tuesday",pos:"n.",definition:"星期二"},
+  {id:119,word:"Wednesday",pos:"n.",definition:"星期三"},
+  {id:120,word:"Thursday",pos:"n.",definition:"星期四"},
+  {id:121,word:"week",pos:"n.",definition:"週；星期"},
+  {id:122,word:"a.m.",pos:"adv.",definition:"上午；凌晨"},
+  {id:123,word:"study",pos:"v.",definition:"研讀"},
+  {id:124,word:"English",pos:"n.",definition:"英文"},
+  {id:125,word:"take a walk",pos:"phrase",definition:"散步"},
+  {id:126,word:"movie",pos:"n.",definition:"電影"},
+  {id:127,word:"take a picture",pos:"phrase",definition:"拍照"},
+  {id:128,word:"party",pos:"n.",definition:"派對；宴會"},
+  {id:129,word:"report",pos:"v.; n.",definition:"報導"},
+  {id:130,word:"popular",pos:"adj.",definition:"受歡迎的"},
+  {id:131,word:"fan",pos:"n.",definition:"⋯迷"},
+  {id:132,word:"shake hands",pos:"phrase",definition:"握手"},
+  {id:133,word:"everyone",pos:"pron.",definition:"每個人（= everybody）"},
+  {id:134,word:"sign",pos:"v.",definition:"簽名"},
+  {id:135,word:"date",pos:"n.",definition:"日期"},
+  {id:136,word:"November",pos:"n.",definition:"十一月"},
+  {id:137,word:"first",pos:"adj.; adv.; n.",definition:"第一（的）"},
+  {id:138,word:"Thanksgiving",pos:"n.",definition:"感恩節"},
+  {id:139,word:"important",pos:"adj.",definition:"重要的"},
+  {id:140,word:"holiday",pos:"n.",definition:"節日；假日"},
+  {id:141,word:"when",pos:"adv.",definition:"何時"},
+  {id:142,word:"fourth",pos:"adj.; adv.; n.",definition:"第四（的）"},
+  {id:143,word:"birthday",pos:"n.",definition:"生日"},
+  {id:144,word:"also",pos:"adv.",definition:"也；此外"},
+  {id:145,word:"before",pos:"prep.",definition:"在⋯⋯之前"},
+  {id:146,word:"around",pos:"adv.; prep.",definition:"圍繞；在⋯⋯附近"},
+  {id:147,word:"How about...?",pos:"phrase",definition:"那⋯⋯呢？"},
+  {id:148,word:"second",pos:"adj.; adv.; n.",definition:"第二（的）"},
+  {id:149,word:"next",pos:"adj.",definition:"下一個的"},
+  {id:150,word:"month",pos:"n.",definition:"月份"},
+  {id:151,word:"January",pos:"n.",definition:"一月"},
+  {id:152,word:"February",pos:"n.",definition:"二月"},
+  {id:153,word:"March",pos:"n.",definition:"三月"},
+  {id:154,word:"April",pos:"n.",definition:"四月"},
+  {id:155,word:"May",pos:"n.",definition:"五月"},
+  {id:156,word:"June",pos:"n.",definition:"六月"},
+  {id:157,word:"July",pos:"n.",definition:"七月"},
+  {id:158,word:"August",pos:"n.",definition:"八月"},
+  {id:159,word:"September",pos:"n.",definition:"九月"},
+  {id:160,word:"October",pos:"n.",definition:"十月"},
+  {id:161,word:"December",pos:"n.",definition:"十二月"},
+  {id:162,word:"New Year's Eve",pos:"n.",definition:"元旦前夕"},
+  {id:163,word:"Christmas",pos:"n.",definition:"聖誕節"},
+  {id:164,word:"third",pos:"adj.; adv.; n.",definition:"第三（的）"},
+  {id:165,word:"animal",pos:"n.",definition:"動物"},
+  {id:166,word:"cow",pos:"n.",definition:"牛；乳牛"},
+  {id:167,word:"think",pos:"v.",definition:"想；認為"},
+  {id:168,word:"lucky",pos:"adj.",definition:"幸運的"},
+  {id:169,word:"only",pos:"adv.; adj.",definition:"只是；唯一的"},
+  {id:170,word:"dinner",pos:"n.",definition:"晚餐"},
+  {id:171,word:"lion",pos:"n.",definition:"獅子"},
+  {id:172,word:"over there",pos:"phrase",definition:"在那裡"},
+  {id:173,word:"king",pos:"n.",definition:"國王"},
+  {id:174,word:"some",pos:"adj.; pron.",definition:"一些（的）"},
+  {id:175,word:"elephant",pos:"n.",definition:"大象"},
+  {id:176,word:"so",pos:"adv.",definition:"如此地"},
+  {id:177,word:"any",pos:"adj.; pron.",definition:"任何（的）"},
+  {id:178,word:"tiger",pos:"n.",definition:"老虎"},
+  {id:179,word:"zebra",pos:"n.",definition:"斑馬"},
+  {id:180,word:"back",pos:"n.",definition:"背；後面"},
+  {id:181,word:"help",pos:"n.; v.",definition:"幫助；幫忙"},
+  {id:182,word:"right",pos:"adj.",definition:"正確的"},
+  {id:183,word:"monkey",pos:"n.",definition:"猴子"},
+  {id:184,word:"fox",pos:"n.",definition:"狐狸"},
+  {id:185,word:"horse",pos:"n.",definition:"馬"},
+  {id:186,word:"rat",pos:"n.",definition:"老鼠"},
+  {id:187,word:"bear",pos:"n.",definition:"熊"},
+  {id:188,word:"world",pos:"n.",definition:"世界"},
+  {id:189,word:"example",pos:"n.",definition:"實例"},
+  {id:190,word:"bug",pos:"n.",definition:"蟲子"},
+  {id:191,word:"food",pos:"n.",definition:"食物"},
+  {id:192,word:"clean up",pos:"phrase",definition:"清理；打掃"},
+  {id:193,word:"full",pos:"adj.",definition:"飽的；滿的"},
+  {id:194,word:"healthy",pos:"adj.",definition:"健康的"},
+  {id:195,word:"thanks to",pos:"phrase",definition:"幸虧；由於"},
+  {id:196,word:"clean",pos:"adj.",definition:"乾淨的"},
+  {id:197,word:"mummy",pos:"n.",definition:"木乃伊"},
+  {id:198,word:"rock",pos:"n.",definition:"石塊"},
+  {id:199,word:"dinosaur",pos:"n.",definition:"恐龍"},
+  {id:200,word:"lab",pos:"n.",definition:"實驗室"},
+  {id:201,word:"K-pop",pos:"n.",definition:"韓國流行音樂（= Korean popular music）"},
+  {id:202,word:"concert",pos:"n.",definition:"音樂會；演唱會"},
+  {id:203,word:"meet-and-greet",pos:"n.",definition:"見面會"},
+  {id:204,word:"stage",pos:"n.",definition:"舞台"},
+  {id:205,word:"give",pos:"v.",definition:"給"},
+  {id:206,word:"thankful",pos:"adj.",definition:"感謝的"},
+  {id:207,word:"turkey leg",pos:"n.",definition:"火雞腿"},
+  {id:208,word:"nervous",pos:"adj.",definition:"緊張的"},
+  {id:209,word:"cry out",pos:"phrase",definition:"喊叫"},
+  {id:210,word:"never",pos:"adv.",definition:"從不"},
+  {id:211,word:"herd",pos:"n.",definition:"獸群"},
+  {id:212,word:"know",pos:"v.",definition:"知道"},
+  {id:213,word:"oxpecker",pos:"n.",definition:"牛椋鳥"},
+  {id:214,word:"expert",pos:"n.",definition:"專家"},
+  {id:215,word:"coat",pos:"n.",definition:"毛皮"},
+  {id:216,word:"luckily",pos:"adv.",definition:"幸運地"},
+  {id:217,word:"provide",pos:"v.",definition:"提供"}
+];
+
+const TOTAL = 20;
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = false;
+let results = [];
+let startTime = null;
+let wrongThisQuestion = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pickQuestions() {
+  const pool = shuffle(WORD_BANK).slice(0, TOTAL);
+  return pool.map(item => {
+    const wrong = shuffle(WORD_BANK.filter(w => w.id !== item.id)).slice(0, 3);
+    const options = shuffle([item, ...wrong]);
+    return { ...item, options };
+  });
+}
+
+function goHome() {
+  document.getElementById('result-screen').style.display = 'none';
+  const home = document.getElementById('home-screen');
+  home.style.display = 'flex';
+  home.style.animation = 'none';
+  void home.offsetWidth;
+  home.style.animation = 'fadeUp 0.4s ease';
+}
+
+function startGame() {
+  questions = pickQuestions();
+  current = 0;
+  score = 0;
+  answered = false;
+  results = [];
+  startTime = Date.now();
+
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  const qs = document.getElementById('quiz-screen');
+  qs.style.display = 'flex';
+  document.getElementById('score-display').textContent = '0';
+  document.getElementById('progress-fill').style.width = '0%';
+  updateQuestion();
+}
+
+function updateQuestion() {
+  const q = questions[current];
+  wrongThisQuestion = false;
+  document.getElementById('q-label').textContent = `題 ${current + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${(current / TOTAL) * 100}%`;
+  document.getElementById('word-display').textContent = q.word;
+
+  const posEl = document.getElementById('word-pos');
+  posEl.textContent = q.pos || '';
+  posEl.style.display = q.pos ? 'inline-block' : 'none';
+
+  const card = document.getElementById('word-card');
+  card.classList.remove('fade-in');
+  void card.offsetWidth;
+  card.classList.add('fade-in');
+
+  const grid = document.getElementById('options-grid');
+  grid.classList.remove('fade-in');
+  void grid.offsetWidth;
+  grid.classList.add('fade-in');
+
+  q.options.forEach((opt, i) => {
+    const btn = document.getElementById(`opt-${i}`);
+    btn.textContent = opt.definition;
+    btn.className = 'option-btn';
+    btn.disabled = false;
+    btn.onclick = () => handleAnswer(i, opt.id === q.id);
+  });
+
+  answered = false;
+}
+
+function handleAnswer(idx, isCorrect) {
+  if (answered) return;
+
+  const q = questions[current];
+  const btns = [0,1,2,3].map(i => document.getElementById(`opt-${i}`));
+
+  if (isCorrect) {
+    answered = true;
+    btns.forEach(b => b.disabled = true);
+    btns[idx].classList.add('correct');
+    if (!wrongThisQuestion) {
+      score++;
+      document.getElementById('score-display').textContent = score;
+    }
+    results.push({ word: q.word, pos: q.pos, definition: q.definition, correct: !wrongThisQuestion });
+
+    setTimeout(() => {
+      current++;
+      if (current >= TOTAL) {
+        showResult();
+      } else {
+        updateQuestion();
+      }
+    }, 850);
+  } else {
+    wrongThisQuestion = true;
+    btns[idx].classList.add('wrong');
+    btns[idx].disabled = true;
+    setTimeout(() => {
+      btns[idx].classList.remove('wrong');
+    }, 400);
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'flex';
+  rs.style.flexDirection = 'column';
+
+  document.getElementById('progress-fill').style.width = '100%';
+
+  const wrong = TOTAL - score;
+  document.getElementById('correct-count').textContent = score;
+  document.getElementById('wrong-count').textContent = wrong;
+  document.getElementById('result-subtitle').textContent = `答對 ${score} / ${TOTAL} 題`;
+
+  const title = document.getElementById('result-title');
+  const trophy = document.getElementById('trophy-emoji');
+  if (score === TOTAL) {
+    title.textContent = '完美！全部答對！'; trophy.textContent = '🏆';
+  } else if (score >= 15) {
+    title.textContent = '太棒了！繼續保持！'; trophy.textContent = '🌟';
+  } else if (score >= 10) {
+    title.textContent = '不錯喔！再接再厲！'; trophy.textContent = '💪';
+  } else {
+    title.textContent = '辛苦了！繼續加油！'; trophy.textContent = '📚';
+  }
+
+  trophy.style.animation = 'none';
+  void trophy.offsetWidth;
+  trophy.style.animation = 'trophy-bounce 0.6s cubic-bezier(.4,0,.2,1)';
+
+  // Date & duration
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  document.getElementById('result-date').textContent = `${y} 年 ${m} 月 ${d} 日`;
+
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+  document.getElementById('result-duration').textContent =
+    mins > 0 ? `${mins} 分 ${String(secs).padStart(2,'0')} 秒` : `${secs} 秒`;
+
+  // Review list
+  const list = document.getElementById('review-list');
+  list.innerHTML = '';
+  results.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'review-item';
+    div.innerHTML = `
+      <span class="review-icon">${r.correct ? '✅' : '❌'}</span>
+      <span class="review-word ${r.correct ? 'correct-word' : 'wrong-word'}">${r.word}</span>
+      <span class="review-def">${r.definition}</span>
+    `;
+    list.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
